@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flora — apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --ink:#16211C; --ink-2:#3A4741; --ink-3:#6C766F;
+    --paper:#F6F8F6; --surface:#FFFFFF; --surface-2:#EDF1EE;
+    --line:#D8DFDA; --line-strong:#BCC7C0;
+    --accent:#2F6B4F; --accent-soft:#E4EFE8;
+    --alerta:#8A6113; --alerta-soft:#F8EFDD;
+    --erro:#9B3A2E; --erro-soft:#F7E6E3;
+    --proj:#3D5A8A; --proj-soft:#E5EBF4;
+    --serif:"Newsreader",Georgia,serif;
+    --sans:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-snap-type:y proximity}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--serif); -webkit-font-smoothing:antialiased;
+  }
+  #palco{width:100%; background:var(--paper)}
+  .slide{
+    position:relative; min-height:100vh; display:flex;
+    padding:5.2vh 6vw 8vh; flex-direction:column; justify-content:center;
+    scroll-snap-align:start;
+    border-bottom:1px solid var(--line);
+  }
+  .slide.frase{border-bottom-color:#2A342E}
+  .kicker{
+    font-family:var(--sans); font-size:1.25vh; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:2.2vh;
+  }
+  .kicker.al{color:var(--alerta)} .kicker.er{color:var(--erro)} .kicker.pr{color:var(--proj)}
+  h1{font-size:7.6vh; font-weight:500; line-height:1.02; margin:0; letter-spacing:-.02em; text-wrap:balance}
+  h2{font-size:4.6vh; font-weight:500; line-height:1.1; margin:0 0 2.4vh; letter-spacing:-.015em; text-wrap:balance; max-width:22ch}
+  h2.wide{max-width:30ch}
+  .lead{font-size:2.7vh; color:var(--ink-2); line-height:1.5; max-width:56ch; margin:0 0 2vh}
+  .lead b{color:var(--ink); font-weight:600}
+  .small{font-family:var(--sans); font-size:1.55vh; color:var(--ink-3); line-height:1.55; max-width:70ch}
+  .fonte{
+    position:absolute; left:6vw; right:6vw; bottom:3.4vh;
+    font-family:var(--sans); font-size:1.35vh; color:var(--ink-3);
+    border-top:1px solid var(--line); padding-top:1.2vh;
+  }
+  .n{position:absolute; right:2.2vw; bottom:2.4vh; font-family:var(--sans); font-size:1.3vh; color:var(--line-strong)}
+
+  /* capa */
+  .capa{background:var(--surface)}
+  .capa .marca{font-family:var(--sans); font-size:1.4vh; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--accent)}
+  .capa h1{font-size:11vh; margin:2.4vh 0 0}
+  .capa .sub{font-size:3.2vh; color:var(--ink-2); margin-top:2.4vh; max-width:34ch; line-height:1.35}
+  .capa .rodape{position:absolute; left:6vw; bottom:6vh; font-family:var(--sans); font-size:1.5vh; color:var(--ink-3); display:flex; gap:2.4vw}
+  .capa .rodape b{color:var(--ink-2); font-weight:600}
+
+  /* frase gigante */
+  .frase{background:var(--ink); color:var(--paper); align-items:flex-start}
+  .frase h1{font-size:8.4vh; color:#fff; max-width:20ch}
+  .frase .depois{margin-top:3.4vh; font-size:2.9vh; color:#B4BFB8; max-width:44ch; line-height:1.45}
+  .frase .depois b{color:#fff; font-weight:600}
+
+  /* numero grande */
+  .numerao{display:flex; align-items:baseline; gap:1.6vw; margin:1vh 0 2.6vh}
+  .numerao .big{font-size:15vh; line-height:.9; font-weight:500; letter-spacing:-.04em; color:var(--erro)}
+  .numerao .big.ok{color:var(--accent)}
+  .numerao .rot{font-size:2.5vh; color:var(--ink-2); max-width:22ch; line-height:1.3}
+
+  /* fluxo */
+  .fluxo{display:flex; align-items:stretch; gap:.9vw; margin:2vh 0 1vh; flex-wrap:nowrap}
+  .passo{
+    flex:1; background:var(--surface); border:1px solid var(--line); border-radius:10px;
+    padding:2vh 1.3vw; display:flex; flex-direction:column; gap:.9vh; min-width:0;
+  }
+  .passo .t{font-family:var(--sans); font-size:1.5vh; font-weight:700; color:var(--ink)}
+  .passo .d{font-size:1.9vh; color:var(--ink-2); line-height:1.35}
+  .passo.mau{border-color:color-mix(in srgb,var(--erro) 40%,transparent); background:var(--erro-soft)}
+  .passo.bom{border-color:color-mix(in srgb,var(--accent) 40%,transparent); background:var(--accent-soft)}
+  .seta{align-self:center; font-family:var(--sans); font-size:2.4vh; color:var(--line-strong)}
+  .volta{
+    margin-top:1.4vh; padding:1.4vh 1.6vw; border:1px dashed color-mix(in srgb,var(--erro) 50%,transparent);
+    border-radius:10px; background:var(--erro-soft); font-size:2.1vh; color:var(--erro); font-weight:500;
+  }
+
+  /* tabelas */
+  table{border-collapse:collapse; width:100%; font-family:var(--sans); font-size:1.75vh}
+  th,td{text-align:left; padding:1.05vh .9vw; border-bottom:1px solid var(--line); vertical-align:top}
+  th{font-size:1.3vh; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3); font-weight:700; border-bottom:1.5px solid var(--line-strong)}
+  td.proc{font-variant-numeric:tabular-nums; color:var(--ink-3); white-space:nowrap}
+  td b{color:var(--ink); font-weight:600}
+  .falta{color:var(--erro); font-weight:600}
+  .okc{color:var(--accent); font-weight:600}
+  tr.tot td{border-bottom:none; border-top:1.5px solid var(--ink); font-weight:700; color:var(--ink); padding-top:1.4vh}
+
+  /* dois baldes */
+  .baldes{display:grid; grid-template-columns:1fr 1fr; gap:1.6vw; margin-top:1.4vh}
+  .balde{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:2.2vh 1.4vw}
+  .balde h3{font-family:var(--sans); font-size:1.4vh; text-transform:uppercase; letter-spacing:.1em; margin:0 0 1.4vh; color:var(--ink-3)}
+  .balde ul{margin:0; padding-left:1.2em; font-family:var(--sans); font-size:1.75vh; line-height:1.65; color:var(--ink-2)}
+  .balde.ob h3{color:var(--accent)}
+  .balde.op h3{color:var(--alerta)}
+  .balde li.grave{color:var(--erro); font-weight:600}
+
+  /* caso */
+  .caso{display:grid; grid-template-columns:1fr 1fr; gap:2vw; margin-top:1vh; align-items:start}
+  .cx{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:2.2vh 1.5vw}
+  .cx h3{font-family:var(--sans); font-size:1.35vh; text-transform:uppercase; letter-spacing:.1em; margin:0 0 1.4vh; color:var(--ink-3)}
+  .cx ul{margin:0; padding-left:1.15em; font-family:var(--sans); font-size:1.95vh; line-height:1.7; color:var(--ink-2)}
+  .cx.ruim{background:var(--erro-soft); border-color:color-mix(in srgb,var(--erro) 35%,transparent)}
+  .cx.ruim h3{color:var(--erro)}
+  .cx.ruim li{color:#7d2f25}
+  .fala{
+    margin-top:2.2vh; padding:1.8vh 1.6vw; border-left:4px solid var(--accent);
+    background:var(--accent-soft); font-size:2.3vh; color:var(--ink); line-height:1.4; max-width:64ch;
+  }
+  .fala .q{font-style:italic}
+  .chips{display:flex; gap:.6vw; margin-bottom:1.4vh}
+  .chip{
+    display:inline-block; font-family:var(--sans); font-size:1.25vh; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; padding:.45vh .7vw; border-radius:999px; margin-right:.5vw;
+  }
+  .chip.pf{color:var(--proj); background:var(--proj-soft)}
+  .chip.qtd{color:var(--ink-3); background:var(--surface-2)}
+
+  /* arvore */
+  .arvore{display:flex; align-items:stretch; gap:1vw; margin:2vh 0 2.6vh; flex-wrap:nowrap}
+  .filtro{background:var(--surface); border:1px solid var(--line-strong); border-radius:10px; padding:1.6vh 1vw; flex:1 1 0; min-width:0}
+  .filtro .t{font-family:var(--sans); font-size:1.25vh; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3)}
+  .filtro .v{font-size:2.2vh; color:var(--ink); margin-top:.6vh; line-height:1.3}
+  .igual{font-size:3vh; color:var(--line-strong); align-self:center; flex:0 0 auto}
+  .resultado{background:var(--accent); color:#fff; border-radius:10px; padding:1.6vh 1vw; flex:0 0 auto; display:flex; flex-direction:column; justify-content:center}
+  .resultado .t{font-family:var(--sans); font-size:1.25vh; text-transform:uppercase; letter-spacing:.1em; opacity:.8}
+  .resultado .v{font-size:2.4vh; margin-top:.6vh; font-weight:500}
+  .tres{display:grid; grid-template-columns:repeat(3,1fr); gap:1.2vw; margin-top:1vh}
+  .tres .c{border-radius:10px; padding:2vh 1.2vw; text-align:center}
+  .tres .c .n2{font-size:5.4vh; font-weight:500; line-height:1}
+  .tres .c .l{font-family:var(--sans); font-size:1.5vh; margin-top:.8vh}
+  .tres .ob{background:var(--accent-soft); color:var(--accent)}
+  .tres .op{background:var(--alerta-soft); color:var(--alerta)}
+  .tres .ne{background:var(--surface-2); color:var(--ink-3)}
+
+  /* lista de capacidades */
+  ol.cap{margin:1vh 0 0; padding:0; list-style:none; display:grid; gap:1.4vh}
+  ol.cap li{display:grid; grid-template-columns:auto minmax(0,1fr); gap:1.2vw; align-items:baseline}
+  ol.cap .num{
+    font-family:var(--sans); font-size:1.5vh; font-weight:700; color:var(--accent);
+    background:var(--accent-soft); border-radius:999px; width:3.6vh; height:3.6vh;
+    display:flex; align-items:center; justify-content:center;
+  }
+  ol.cap .tx{font-size:2.35vh; color:var(--ink-2); line-height:1.4}
+  ol.cap .tx b{color:var(--ink); font-weight:600}
+
+  blockquote{
+    margin:1.6vh 0 0; padding:2.2vh 1.8vw; background:var(--surface); border-left:4px solid var(--alerta);
+    font-size:2.4vh; line-height:1.45; color:var(--ink); max-width:62ch;
+  }
+  blockquote cite{display:block; margin-top:1.4vh; font-family:var(--sans); font-size:1.4vh; font-style:normal; color:var(--ink-3)}
+
+  .duas{display:grid; grid-template-columns:1fr 1fr; gap:2.4vw; margin-top:1vh}
+  .duas h3{font-family:var(--sans); font-size:1.5vh; text-transform:uppercase; letter-spacing:.1em; margin:0 0 1.4vh; color:var(--accent)}
+  .duas ul{margin:0; padding-left:1.15em; font-size:2.15vh; line-height:1.6; color:var(--ink-2)}
+  .duas ul b{color:var(--ink); font-weight:600}
+
+  .ordem{display:grid; gap:1.2vh; margin-top:1.4vh}
+  .ordem .it{display:grid; grid-template-columns:auto minmax(0,1fr); gap:1.2vw; align-items:baseline; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.6vh 1.2vw}
+  .ordem .it .p{font-family:var(--sans); font-size:1.35vh; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--proj); white-space:nowrap}
+  .ordem .it .d{font-size:2.15vh; color:var(--ink-2); line-height:1.4}
+  .ordem .it .d b{color:var(--ink); font-weight:600}
+
+  /* navegacao */
+  .rolar{
+    position:absolute; left:6vw; bottom:3vh; font-family:var(--sans);
+    font-size:1.3vh; letter-spacing:.1em; text-transform:uppercase; color:var(--line-strong);
+  }
+  .slide.frase .rolar{color:#3B473F}
+
+  @media print{
+    @page{size:1280px 720px; margin:0}
+    html{scroll-snap-type:none}
+    body{background:#fff}
+    #palco{width:1280px}
+    .slide{width:1280px; height:720px; min-height:0; border-bottom:none; page-break-after:always; break-after:page}
+    .rolar{display:none}
+  }
+</style>
+
+<style>
+  /* exemplos ficticios */
+  .exemplos{display:grid; gap:1.5vh; margin-top:1vh}
+  .ex{
+    display:grid; grid-template-columns:auto minmax(0,1fr); gap:1.4vw; align-items:start;
+    background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:2vh 1.4vw;
+  }
+  .ex .marca{
+    font-family:var(--sans); font-size:1.25vh; font-weight:700; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--erro); background:var(--erro-soft);
+    border-radius:999px; padding:.5vh .8vw; white-space:nowrap;
+  }
+  .ex .tx{font-size:2.25vh; color:var(--ink-2); line-height:1.45}
+  .ex .tx b{color:var(--ink); font-weight:600}
+  .ex .tx .mono{font-family:var(--sans); letter-spacing:.03em}
+  .aviso{
+    margin-top:2.4vh; font-family:var(--sans); font-size:1.5vh; color:var(--ink-3);
+    border-left:3px solid var(--line-strong); padding-left:1vw; max-width:70ch; line-height:1.55;
+  }
+  .par{display:grid; grid-template-columns:1fr 1fr; gap:1.6vw; margin-top:1vh}
+  .par .lado{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:2.2vh 1.4vw}
+  .par .lado h3{font-family:var(--sans); font-size:1.35vh; text-transform:uppercase; letter-spacing:.1em; margin:0 0 1.4vh}
+  .par .hoje h3{color:var(--erro)}
+  .par .flora h3{color:var(--accent)}
+  .par ul{margin:0; padding-left:1.15em; font-size:2.1vh; line-height:1.65; color:var(--ink-2)}
+  .par ul b{color:var(--ink); font-weight:600}
+</style>
+
+<div id="palco">
+
+<!-- 1 -->
+<section class="slide capa">
+  <div class="marca">FLORAM · Autorização para corte de árvores · Áreas privadas</div>
+  <h1>Flora</h1>
+  <div class="sub">O processo só entra quando está completo.</div>
+  <div class="rodape">
+    <span><b>Filtro de entrada</b> de processo</span>
+    <span>Florianópolis · <b>10 de setembro de 2026</b></span>
+  </div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">1</div>
+</section>
+
+<!-- 2 -->
+<section class="slide frase">
+  <div class="kicker" style="color:#6FBF92">O problema</div>
+  <h1>A fila não mede demanda.<br>Mede retrabalho.</h1>
+  <div class="depois">Boa parte do que está na fila <b>já esteve nela antes</b> — saiu porque faltava um documento, e voltou para o fim.</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n" style="color:#3B473F">2</div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker er">A mecânica de hoje</div>
+  <h2 class="wide">Um processo mal formado é contado duas, três, quatro vezes</h2>
+  <div class="fluxo">
+    <div class="passo"><div class="t">1 · Protocola</div><div class="d">O requerente envia o que acha que precisa</div></div>
+    <div class="seta">→</div>
+    <div class="passo"><div class="t">2 · Entra na fila</div><div class="d">E espera</div></div>
+    <div class="seta">→</div>
+    <div class="passo mau"><div class="t">3 · O analista abre</div><div class="d">E descobre o que falta</div></div>
+    <div class="seta">→</div>
+    <div class="passo mau"><div class="t">4 · Devolve</div><div class="d">Exigência de complementação</div></div>
+    <div class="seta">→</div>
+    <div class="passo mau"><div class="t">5 · Corrige</div><div class="d">E volta para o <b>fim</b> da fila</div></div>
+  </div>
+  <div class="volta">↻ &nbsp;O tempo do analista foi gasto <b>para descobrir que não dava para analisar</b> — e o relógio do cidadão voltou a zero.</div>
+  <p class="lead" style="margin-top:2.4vh">Os dois lados perdem: o órgão gasta análise em processo que não tinha como analisar, e o cidadão espera duas vezes.</p>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">3</div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker al">Por que acontece</div>
+  <h2 class="wide">O formulário de hoje entrega a mesma lista para todo mundo</h2>
+  <div class="baldes">
+    <div class="balde ob">
+      <h3>Obrigatórios — dois, para qualquer pedido</h3>
+      <ul>
+        <li>RG, CPF ou CNPJ do requerente</li>
+        <li>Fotos da(s) árvore(s)</li>
+      </ul>
+    </div>
+    <div class="balde op">
+      <h3>Opcionais — nove, para qualquer pedido</h3>
+      <ul>
+        <li class="grave">Ata de reunião de condomínio</li>
+        <li>Projeto arquitetônico aprovado (unifamiliar)</li>
+        <li>Alvará de construção (multifamiliar)</li>
+        <li>Planta de implantação do empreendimento</li>
+        <li>Planta de implantação da edificação</li>
+        <li class="grave">Levantamento florístico</li>
+        <li class="grave">Responsabilidade técnica do levantamento</li>
+        <li class="grave">RG, CPF ou CNPJ do procurador</li>
+        <li class="grave">Procuração — representante legal</li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:2.2vh">Os cinco em vermelho <b>não são opcionais</b> — são obrigatórios em alguns casos e dispensáveis em outros. Chamados de "opcional" para todo mundo, ninguém sabe quando precisa deles.</p>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">4</div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker er">O que passa por essa porta</div>
+  <h2 class="wide">Exemplos do que um formulário assim aceita sem piscar</h2>
+  <div class="exemplos">
+    <div class="ex">
+      <span class="marca">campo obrigatório</span>
+      <span class="tx">A pessoa não sabe a inscrição imobiliária. O campo não deixa enviar vazio — então ela digita <b class="mono">00.00.000.0000.000.000</b> e envia. <b>Entra.</b></span>
+    </div>
+    <div class="ex">
+      <span class="marca">campo errado</span>
+      <span class="tx">O requerente anexa a <b>certidão do imóvel</b> no campo da <b>ata de condomínio</b> — era o único lugar que parecia servir. O documento certo está no processo, onde ninguém vai procurá-lo. <b>Entra.</b></span>
+    </div>
+    <div class="ex">
+      <span class="marca">sem procuração</span>
+      <span class="tx">Alguém pede em nome de outra pessoa. A procuração está marcada como <b>opcional</b>, então não anexa. <b>Entra</b> — e volta semanas depois.</span>
+    </div>
+    <div class="ex">
+      <span class="marca">prova errada</span>
+      <span class="tx">Para provar que o imóvel é dele, o requerente anexa a <b>conta de luz</b>. Faz sentido para quem manda, e não serve para quem analisa. <b>Entra.</b></span>
+    </div>
+  </div>
+  <div class="aviso">São exemplos construídos para a conversa, não casos reais — o ponto é que <b>nenhum deles é má-fé</b>. São as saídas que um formulário sem lista própria empurra para quem está de boa-fé tentando enviar.</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">5</div>
+</section>
+
+<!-- 6 -->
+<section class="slide frase">
+  <div class="kicker" style="color:#D8AE5E">O ponto</div>
+  <h1>O erro está na pergunta,<br>não em quem responde.</h1>
+  <div class="depois">O requerente <b>não tem como saber</b> qual é a lista dele. Ele lê "opcional" e não anexa.</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n" style="color:#3B473F">6</div>
+</section>
+
+<!-- 7 -->
+<section class="slide frase">
+  <div class="kicker" style="color:#6FBF92">A virada</div>
+  <h1>A lista não é uma lista.<br>É uma árvore de decisão.</h1>
+  <div class="depois">Quem pede · qual é o caso · quantas árvores. <b>Três respostas, e a lista daquele pedido se monta sozinha</b> — antes de anexar qualquer coisa.</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n" style="color:#3B473F">7</div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">Como o Flora monta a lista</div>
+  <h2 class="wide">Três perguntas no começo, e a lista deixa de ser a mesma para todos</h2>
+  <div class="arvore">
+    <div class="filtro"><div class="t">1 · Quem pede</div><div class="v">Pessoa física · jurídica · condomínio<br><span style="color:var(--ink-3);font-size:1.8vh">e em que papel: dono, autorizado, representante</span></div></div>
+    <div class="igual">×</div>
+    <div class="filtro"><div class="t">2 · Qual é o caso</div><div class="v">Multifamiliar · unifamiliar · sem construção · terreno do vizinho</div></div>
+    <div class="igual">×</div>
+    <div class="filtro"><div class="t">3 · Quantas árvores</div><div class="v">Abaixo de 10 · de 10 em diante</div></div>
+    <div class="igual">=</div>
+    <div class="resultado"><div class="t">A lista deste pedido</div><div class="v">e só dela</div></div>
+  </div>
+  <p class="lead">O requerente vê os três grupos separados, sempre — e o que o caso dele não exige aparece <b>cinza</b>, escrito "não exigido do seu pedido". Nunca vermelho.</p>
+  <div class="tres">
+    <div class="c ob"><div class="n2">4</div><div class="l">obrigatórios <b>para o seu caso</b></div></div>
+    <div class="c op"><div class="n2">2</div><div class="l">opcionais neste pedido</div></div>
+    <div class="c ne"><div class="n2">13</div><div class="l">não exigidos do seu pedido</div></div>
+  </div>
+  <div class="fonte">Números de um pedido de pessoa física, 2 árvores, sem construção. Num condomínio, empreendimento multifamiliar, com 12 árvores, os obrigatórios sobem de 4 para 12 — entram a ata da assembleia, a planta de implantação, o inventário florestal e a responsabilidade técnica.</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">8</div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">O que ele confere</div>
+  <h2 class="wide">Quatro conferências, todas antes do protocolo</h2>
+  <ol class="cap">
+    <li><span class="num">1</span><span class="tx"><b>Abre o arquivo e diz o que ele é.</b> Pergunta se aquilo parece o documento que o campo aceita. Uma CNH, um RG, um passaporte, uma matrícula, uma certidão cadastral — cada campo tem suas formas válidas, e ele diz o que a pessoa mandou por engano.</span></li>
+    <li><span class="num">2</span><span class="tx"><b>Recusa o que não é documento.</b> Um arquivo de texto digitado com "CARTEIRA DE IDENTIDADE" escrito dentro não passa — qualquer pessoa escreveria o mesmo.</span></li>
+    <li><span class="num">3</span><span class="tx"><b>Cruza os dados entre os documentos.</b> Dez conferências: o nome do requerente contra o documento do imóvel, a inscrição digitada contra a que está nele, quem assina contra a procuração, a data de nascimento contra o documento de identidade, o profissional do levantamento contra a ART.</span></li>
+    <li><span class="num">4</span><span class="tx"><b>Conta árvore, não arquivo.</b> Olha cada fotografia e conta quantas árvores aparecem nela. Um PDF com três fotos vale três; uma foto com três árvores conta três.</span></li>
+  </ol>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">9</div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">A diferença, em uma tela</div>
+  <h2>O que muda na porta de entrada</h2>
+  <div class="par">
+    <div class="lado hoje">
+      <h3>Hoje</h3>
+      <ul>
+        <li>A mesma lista para todo pedido</li>
+        <li>Ninguém abre o arquivo antes do protocolo</li>
+        <li>O que é digitado <b>não é conferido contra nada</b></li>
+        <li>O erro aparece na <b>análise</b> — e volta como exigência</li>
+        <li>A fila conta o mesmo processo várias vezes</li>
+      </ul>
+    </div>
+    <div class="lado flora">
+      <h3>Com o Flora</h3>
+      <ul>
+        <li>A lista <b>daquele</b> caso, montada antes</li>
+        <li>Cada documento é aberto e identificado na hora</li>
+        <li>O que é digitado é <b>cruzado com os documentos</b></li>
+        <li>O erro aparece <b>para quem pode corrigir</b>, na hora</li>
+        <li>A fila passa a medir <b>demanda</b></li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:2.4vh">E a recusa nunca é "falta documento". Ela diz <b>qual</b> documento, <b>por que</b> não serviu e <b>o que fazer</b> — senão a pessoa envia errado de novo.</p>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">10</div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker al">O limite, e ele está escrito na tela</div>
+  <h2>O Flora não decide nada. Ele forma o processo.</h2>
+  <div class="duas">
+    <div>
+      <h3>Não é</h3>
+      <ul style="color:var(--erro)">
+        <li>Perícia de falsificação</li>
+        <li>Análise técnica do pedido</li>
+        <li>Juízo sobre o risco da árvore</li>
+        <li>Decisão de deferimento</li>
+      </ul>
+    </div>
+    <div>
+      <h3>É</h3>
+      <ul>
+        <li>Filtro de <b>erro honesto</b>: o documento certo no campo errado, o que falta, o que não bate</li>
+        <li>A conferência movida para <b>antes</b> do protocolo</li>
+      </ul>
+    </div>
+  </div>
+  <blockquote>“A homologação do processo não garante o deferimento em favor do requerente. Os técnicos da FLORAM poderão, a julgar pela análise técnica, solicitar complementações e vistoria técnica para embasar a decisão administrativa.”
+  <cite>Texto da própria FLORAM, exibido ao requerente no fim do fluxo — palavra por palavra.</cite></blockquote>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">11</div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker pr">Agora, ao vivo</div>
+  <h2>O software, na tela</h2>
+  <div class="ordem">
+    <div class="it"><span class="p">a lista muda</span><span class="d">Troco quem pede e quantas árvores, e <b>a lista se refaz na tela</b>.</span></div>
+    <div class="it"><span class="p">papel digitado</span><span class="d">Um arquivo de texto com "CARTEIRA DE IDENTIDADE" escrito dentro. <b>Ele recusa</b>, e explica por quê.</span></div>
+    <div class="it"><span class="p">campo errado</span><span class="d">Anexo um documento no campo errado de propósito. <b>Ele diz o que eu mandei por engano</b>.</span></div>
+    <div class="it"><span class="p">as fotos</span><span class="d">Ele conta as árvores que aparecem em cada fotografia — e avisa sem impedir.</span></div>
+    <div class="it"><span class="p">o fim</span><span class="d">O projeto aberto, com a lista do que vai junto e o que o software leu em cada documento.</span></div>
+  </div>
+  <div class="fonte">https://morajoaoo-wq.github.io/flora/</div>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">12</div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">Estado hoje</div>
+  <h2>Não é maquete. Está no ar e foi medido.</h2>
+  <div class="tres" style="grid-template-columns:repeat(4,1fr)">
+    <div class="c ob"><div class="n2">61</div><div class="l">documentos reais usados para medir</div></div>
+    <div class="c ob"><div class="n2">60/60</div><div class="l">identificados corretamente, sem recusa indevida</div></div>
+    <div class="c ob"><div class="n2">324</div><div class="l">testes automáticos, todos verdes</div></div>
+    <div class="c ob"><div class="n2">10</div><div class="l">cruzamentos entre documentos</div></div>
+  </div>
+  <p class="lead" style="margin-top:3vh">Roda em <b>servidor no Brasil</b>, acessível por link. Cada conferência que pode ser feita sem custo é feita sem custo — só o que exige leitura de imagem usa análise.</p>
+  <div class="rolar">role para baixo ↓</div>
+  <div class="n">13</div>
+</section>
+
+<!-- 14 -->
+<section class="slide frase">
+  <div class="kicker" style="color:#6FBF92">O pedido</div>
+  <h1>Mover a conferência<br>para antes do protocolo.</h1>
+  <div class="depois">É a única mudança. O processo só entra quando está completo — e a fila que vocês olham todo dia passa a ser a fila de verdade.</div>
+  <div class="n" style="color:#3B473F">14</div>
+</section>
+
+</div>
+
+</body>
+</html>
